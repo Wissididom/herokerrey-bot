@@ -2,7 +2,17 @@ import "dotenv/config";
 
 import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 
-async function findWebhook(message) {}
+async function findThreadById(message, id) {
+  for (let channel of (await message.guild.channels.fetch()).values()) {
+    if (!channel.threads) continue; // Probably a channel that does not have threads like a VC
+    for (let thread of (await channel.threads.fetch()).threads.values()) {
+      if (thread.id == id) {
+        return thread;
+      }
+    }
+  }
+  return null;
+}
 
 async function handleYuh(message, isUpdate) {
   if (message.channelId != process.env.YUH_CHANNEL) return; // Only do things in the yuh channel
@@ -20,7 +30,10 @@ async function handleYuh(message, isUpdate) {
         reason: "yuh-bot",
       });
     }
-    if (message.content == "yuh") {
+    if (
+      message.content == "yuh" ||
+      message.content == process.env.YUH_EMOTE_CODE
+    ) {
       await webhook.send({
         content: process.env.YUH_EMOTE_CODE,
       });
@@ -30,8 +43,8 @@ async function handleYuh(message, isUpdate) {
         content: `‼️ SHAME ON U!!!!!  U MUST USE ${process.env.YUH_EMOTE_CODE} !!!!!! ‼️`,
       });
       setTimeout(() => angryReply.delete(), 10000);
-      let logChannel = await message.client.channels.fetch(process.env.YUH_LOG);
-      logChannel.send({
+      let logThread = await findThreadById(message, process.env.YUH_LOG_THREAD);
+      logThread.send({
         content: `<@${message.author.id}> did NOT YUH!!!!!!!!`,
       });
     }
