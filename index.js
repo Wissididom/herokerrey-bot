@@ -1,6 +1,12 @@
 import "dotenv/config";
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 
 async function findThreadById(message, id) {
   for (let channel of (await message.guild.channels.fetch()).values()) {
@@ -172,6 +178,10 @@ const client = new Client({
 
 client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user?.tag}!`);
+  client.user?.setActivity({
+    name: "twitch.tv/herokerrey",
+    type: ActivityType.Watching,
+  });
 });
 
 client.on(Events.MessageCreate, async (msg) => {
