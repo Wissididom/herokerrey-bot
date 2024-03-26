@@ -8,6 +8,8 @@ import {
   Partials,
 } from "discord.js";
 
+let YUH_LOG_THREAD = null;
+
 async function findThreadById(message, id) {
   for (let channel of (await message.guild.channels.fetch()).values()) {
     if (!channel.threads) continue; // Probably a channel that does not have threads like a VC
@@ -49,8 +51,10 @@ async function handleYuh(message, isUpdate) {
         content: `‼️ SHAME ON U!!!!!  U MUST USE ${process.env.YUH_EMOTE_CODE} !!!!!! ‼️`,
       });
       setTimeout(() => angryReply.delete(), 10000);
-      let logThread = await findThreadById(message, process.env.YUH_LOG_THREAD);
-      logThread.send({
+      YUH_LOG_THREAD =
+        YUH_LOG_THREAD ??
+        (await findThreadById(message, process.env.YUH_LOG_THREAD));
+      YUH_LOG_THREAD.send({
         content: `<@${message.author.id}> did NOT YUH!!!!!!!!`,
       });
     }
