@@ -74,77 +74,61 @@ async function handleButtyBot(message) {
       content:
         "Dragon DEEZ NUTS across yo mouth <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bsome of\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bsome of\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "Why not have some of DEEZ NUTS in yo mouth <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bleave\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bleave\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "Why don't you LEAVE DEEZ NUTS in yo mouth? <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bleaving\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bleaving\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "Why not try LEAVING DEEZ NUTS in yo mouth? <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bsea of thieves\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bsea of thieves\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "See if these NUTS fit in yo mouth? <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bsuck\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bsuck\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content: "Suck on DEEZ NUTS!  <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bnorway\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bnorway\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "Norway deez nuts fit in yo mouth <:mindy_pog:834477380697063484>",
     });
-  }
-  if (/\bsub\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bsub\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content: "Sub or shut up. <a:wiggle:1207805636243628052>",
     });
-  }
-  if (/\bbutt\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bbutt\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content:
         "<a:wag:1210074155794305034> <a:wag:1210074155794305034> <a:wag:1210074155794305034>",
     });
-  }
-  if (/\bjust dance\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bjust dance\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "Gonna be ok. Da da do do!" });
-  }
-  if (/\btry\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\btry\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "TRY HARDER!!!!!" });
-  }
-  if (/\bcan this\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bcan this\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({
       content: "Can DEEZ NUTS fit in yo mouth????",
     });
-  }
-  if (/\bfall\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bfall\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "Fall on DEEZ NUTS!!!" });
-  }
-  if (/\bland\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bland\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "Land on DEEZ NUTS!!" });
-  }
-  if (/\bputting\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bputting\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "Putting DEEZ NUTS in yo mouth!" });
-  }
-  if (/\bhi\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bhi\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "hi" });
-  }
-  if (/\bmorning\b/gi.test(lowercaseMessageContent)) {
+  } else if (/\bmorning\b/gi.test(lowercaseMessageContent)) {
     await message.channel.send({ content: "good morning! 🌞" });
   }
 }
