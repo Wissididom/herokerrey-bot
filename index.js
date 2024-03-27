@@ -10,6 +10,7 @@ import {
 
 import { handleYuh } from "./yuh.js";
 import { handleAutoResponder } from "./autoresponder.js";
+import { handleTimezoneGenerator } from "./timezonegenerator.js";
 
 const client = new Client({
   intents: [
@@ -62,7 +63,7 @@ client.on(Events.MessageUpdate, async (msg) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  // TODO: Handle Interactions, if there ever will be some
+  await handleTimezoneGenerator(interaction);
 });
 
 if (!process.env.DISCORD_TOKEN) {
