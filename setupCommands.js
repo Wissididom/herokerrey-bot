@@ -171,6 +171,19 @@ const rest = new REST().setToken(token);
     console.log(
       `Started refreshing ${registerArray.length} application (/) commands.`,
     );
+    // TODO: Put inside if, if or when there ever will be commands that can only be run on a server
+    for (let i = 0; i < registerArray.length; i++) {
+      registerArray[i] = registerArray[i].toJSON();
+      registerArray[i].integration_types = [
+        0, // Guild Install
+        1, // User Install
+      ];
+      registerArray[i].contexts = [
+        0, // Guild
+        1, // Bot DM
+        2, // Private Channel
+      ];
+    }
     const userData = await rest.get(Routes.user());
     const userId = userData.id;
     const data = await rest.put(Routes.applicationCommands(userId), {
