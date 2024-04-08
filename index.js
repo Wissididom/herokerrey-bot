@@ -11,6 +11,7 @@ import {
 import { handleYuh } from "./yuh.js";
 import { handleAutoResponder } from "./autoresponder.js";
 import { handleTimezoneGenerator } from "./timezonegenerator.js";
+import { handleQotd } from "./qotd.js";
 
 const client = new Client({
   intents: [
@@ -43,12 +44,19 @@ const client = new Client({
   ],
 });
 
-client.on(Events.ClientReady, () => {
+client.on(Events.ClientReady, async () => {
   console.log(`Logged in as ${client.user?.tag}!`);
   client.user?.setActivity({
     name: "twitch.tv/herokerrey",
     type: ActivityType.Watching,
   });
+  await handleQotd(
+    await client.channels.fetch("1201268244649095258"),
+    "America/New_York",
+    12,
+    0,
+    0,
+  );
 });
 
 client.on(Events.MessageCreate, async (msg) => {
