@@ -51,11 +51,11 @@ client.on(Events.ClientReady, async () => {
     type: ActivityType.Watching,
   });
   await handleQotd(
-    await client.channels.fetch("1201268244649095258"),
+    await client.channels.fetch(process.env.QOTD_CHANNEL),
     "America/New_York",
-    12,
-    0,
-    0,
+    parseInt(process.env.QOTD_HOUR),
+    parseInt(process.env.QOTD_MINUTE),
+    parseInt(process.env.QOTD_SECOND),
   );
 });
 

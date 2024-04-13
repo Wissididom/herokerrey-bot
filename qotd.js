@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { EmbedBuilder } from "discord.js";
 import * as fs from "fs";
 
 export async function handleQotd(channel, timezone, hour, minute, second) {
@@ -44,6 +45,13 @@ async function internalHandleQotd(channel, timezone, hour, minute, second) {
         }
         if (lines.length == ignoredQotd.length + 1) ignoredQotd = [];
         console.log(chosenLine);
+        await channel.send({
+          embeds: [
+            new EmbedBuilder().setTitle(
+              "❓❔ Question of the Day ❔❓",
+            ).setDescription(chosenLine).setColor(0xE75EFF),
+          ],
+        });
         fs.writeFileSync("./ignored_qotd.json", JSON.stringify(ignoredQotd), {
           encoding: "utf8",
         });
@@ -52,7 +60,7 @@ async function internalHandleQotd(channel, timezone, hour, minute, second) {
       }
     }
   } else {
-    console.log("hour and minute does not fit");
+    // console.log("hour and minute does not fit");
   }
 }
 
