@@ -52,7 +52,7 @@ client.on(Events.ClientReady, async () => {
   });
   await handleQotd(
     await client.channels.fetch(process.env.QOTD_CHANNEL),
-    "America/New_York",
+    process.env.QOTD_TIMEZONE,
     parseInt(process.env.QOTD_HOUR),
     parseInt(process.env.QOTD_MINUTE),
     parseInt(process.env.QOTD_SECOND),

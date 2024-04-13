@@ -47,9 +47,10 @@ async function internalHandleQotd(channel, timezone, hour, minute, second) {
         console.log(chosenLine);
         await channel.send({
           embeds: [
-            new EmbedBuilder().setTitle(
-              "❓❔ Question of the Day ❔❓",
-            ).setDescription(chosenLine).setColor(0xE75EFF),
+            new EmbedBuilder()
+              .setTitle("❓❔ Question of the Day ❔❓")
+              .setDescription(chosenLine)
+              .setColor(0xe75eff),
           ],
         });
         fs.writeFileSync("./ignored_qotd.json", JSON.stringify(ignoredQotd), {
