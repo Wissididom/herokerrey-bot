@@ -166,6 +166,49 @@ const rest = new REST().setToken(token);
           )
           .setRequired(false),
       ),
+    new SlashCommandBuilder()
+      .setName("temperature")
+      .setDescription("Convert different temperature formats")
+      .addStringOption((option) =>
+        option
+          .setName("source")
+          .setDescription("Source temperature format")
+          .setRequired(true)
+          .addChoices(
+            { name: "°C", value: "c" },
+            { name: "°F", value: "f" },
+            { name: "K", value: "k" },
+            { name: "°R", value: "r" },
+            { name: "°Ré", value: "é" },
+          ),
+      )
+      .addStringOption((option) =>
+        option
+          .setName("target")
+          .setDescription("Target temperature format")
+          .setRequired(true)
+          .addChoices(
+            { name: "°C", value: "c" },
+            { name: "°F", value: "f" },
+            { name: "K", value: "k" },
+            { name: "°R", value: "r" },
+            { name: "°Ré", value: "é" },
+          ),
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("value")
+          .setDescription("The temperature value")
+          .setRequired(true),
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("public")
+          .setDescription(
+            "Should the response be visible to everyone? (Default: False)",
+          )
+          .setRequired(false),
+      ),
   ];
   try {
     console.log(
