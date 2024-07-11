@@ -74,10 +74,10 @@ client.on(Events.MessageUpdate, async (msg) => {
 client.on(Events.InteractionCreate, async (interaction) => {
   switch (interaction.commandName) {
     case "temperature":
-      await handleTemperatureConvertor(interaction);
+      await handleTemperatureConverter(interaction);
       break;
     default:
-      await handleTimezoneGenerater(interaction);
+      await handleTimezoneGenerator(interaction);
       break;
   }
 });
