@@ -11,7 +11,7 @@ import {
 import { handleYuh } from "./yuh.js";
 import { handleAutoResponder } from "./autoresponder.js";
 import { handleTimezoneGenerator } from "./timezonegenerator.js";
-import { handleTemperatureConvertor } from "./temperatureconverter.js";
+import { handleTemperatureConverter } from "./temperatureconverter.js";
 import { handleQotd } from "./qotd.js";
 
 const client = new Client({
@@ -77,7 +77,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await handleTemperatureConvertor(interaction);
       break;
     default:
-      await handleTimezoneGenerator(interaction);
+      await handleTimezoneGenerater(interaction);
       break;
   }
 });
