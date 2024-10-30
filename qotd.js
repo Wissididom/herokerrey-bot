@@ -2,15 +2,15 @@ import { EmbedBuilder } from "discord.js";
 import { schedule } from "node-cron";
 import * as fs from "fs";
 
-export async function handleQotd(channel, timezone, hour, minute, second) {
+export async function handleQotd(channel) {
   schedule(
-    `${second ?? "0"} ${minute ?? "0"} ${hour ?? "0"} * * *`,
+    `${process.env.QOTD_SECOND ?? "0"} ${process.env.QOTD_MINUTE ?? "0"} ${process.env.QOTD_HOUR ?? "0"} * * *`,
     async () => {
       await internalHandleQotd(channel);
     },
     {
       scheduled: true,
-      timezone,
+      timezone: process.env.QOTD_TIMEZONE,
     },
   );
 }

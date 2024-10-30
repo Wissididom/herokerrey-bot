@@ -51,13 +51,7 @@ client.on(Events.ClientReady, async () => {
     name: "twitch.tv/herokerrey",
     type: ActivityType.Watching,
   });
-  await handleQotd(
-    await client.channels.fetch(process.env.QOTD_CHANNEL),
-    process.env.QOTD_TIMEZONE,
-    parseInt(process.env.QOTD_HOUR),
-    parseInt(process.env.QOTD_MINUTE),
-    parseInt(process.env.QOTD_SECOND),
-  );
+  await handleQotd(await client.channels.fetch(process.env.QOTD_CHANNEL));
 });
 
 client.on(Events.MessageCreate, async (msg) => {
