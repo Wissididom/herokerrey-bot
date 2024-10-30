@@ -4,7 +4,9 @@ import * as fs from "fs";
 
 export async function handleQotd(channel) {
   const cron = `${process.env.QOTD_SECOND ?? "0"} ${process.env.QOTD_MINUTE ?? "0"} ${process.env.QOTD_HOUR ?? "0"} * * *`;
-  console.log(`Scheduled QOTD using cron "${cron}"`);
+  console.log(
+    `Scheduled QOTD using cron "${cron}" (Timezone: ${process.env.QOTD_TIMEZONE})`,
+  );
   schedule(
     cron,
     async () => {
