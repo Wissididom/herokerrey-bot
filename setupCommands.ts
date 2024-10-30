@@ -1,8 +1,6 @@
-import "dotenv/config";
-
 import { REST, Routes, SlashCommandBuilder } from "discord.js";
 
-const token = process.env.DISCORD_TOKEN;
+const token: string = Deno.env.get("DISCORD_TOKEN");
 
 if (!token) {
   throw new Error(
@@ -20,50 +18,50 @@ const rest = new REST().setToken(token);
         "Generate Discord timestamps based on a given time and timezone",
       )
       .addIntegerOption((option) =>
-        option.setName("day").setDescription("Day (1 - 31)").setRequired(true),
+        option.setName("day").setDescription("Day (1 - 31)").setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("month")
           .setDescription("Month (1 - 12)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("year")
           .setDescription("Year (min. 1970)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("hour")
           .setDescription("Hour (0 - 23)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("minute")
           .setDescription("Minute (0 - 59)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("timezone")
           .setDescription("Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true),
+          .setAutocomplete(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("second")
           .setDescription("Second (0 - 59)")
-          .setRequired(false),
+          .setRequired(false)
       )
       .addBooleanOption((option) =>
         option
           .setName("prefer_usability")
           .setDescription('"preview: code" (true); "code: preview" (false)')
-          .setRequired(false),
+          .setRequired(false)
       )
       .addBooleanOption((option) =>
         option
@@ -71,7 +69,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
     new SlashCommandBuilder()
       .setName("currenttimestamp")
@@ -80,7 +78,7 @@ const rest = new REST().setToken(token);
         option
           .setName("prefer_usability")
           .setDescription('"preview: code" (true); "code: preview" (false)')
-          .setRequired(false),
+          .setRequired(false)
       )
       .addBooleanOption((option) =>
         option
@@ -88,57 +86,57 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
     new SlashCommandBuilder()
       .setName("converttime")
       .setDescription("Convert a date and time between timezones")
       .addIntegerOption((option) =>
-        option.setName("day").setDescription("Day (1 - 31)").setRequired(true),
+        option.setName("day").setDescription("Day (1 - 31)").setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("month")
           .setDescription("Month (1 - 12)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("year")
           .setDescription("Year (min. 1970)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("hour")
           .setDescription("Hour (0 - 23)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("minute")
           .setDescription("Minute (0 - 59)")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("src")
           .setDescription("Source Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true),
+          .setAutocomplete(true)
       )
       .addStringOption((option) =>
         option
           .setName("dst")
           .setDescription("Destination Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true),
+          .setAutocomplete(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("second")
           .setDescription("Second (0 - 59)")
-          .setRequired(false),
+          .setRequired(false)
       )
       .addBooleanOption((option) =>
         option
@@ -146,7 +144,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
     new SlashCommandBuilder()
       .setName("convertcurrenttime")
@@ -156,7 +154,7 @@ const rest = new REST().setToken(token);
           .setName("timezone")
           .setDescription("Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true),
+          .setAutocomplete(true)
       )
       .addBooleanOption((option) =>
         option
@@ -164,7 +162,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
     new SlashCommandBuilder()
       .setName("temperature")
@@ -180,7 +178,7 @@ const rest = new REST().setToken(token);
             { name: "K", value: "k" },
             { name: "°R", value: "r" },
             { name: "°Ré", value: "é" },
-          ),
+          )
       )
       .addStringOption((option) =>
         option
@@ -193,13 +191,13 @@ const rest = new REST().setToken(token);
             { name: "K", value: "k" },
             { name: "°R", value: "r" },
             { name: "°Ré", value: "é" },
-          ),
+          )
       )
       .addNumberOption((option) =>
         option
           .setName("value")
           .setDescription("The temperature value")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addBooleanOption((option) =>
         option
@@ -207,7 +205,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
   ];
   try {
