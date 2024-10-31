@@ -87,7 +87,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 if (!Deno.env.has("DISCORD_TOKEN")) {
   console.log(
-    "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file. and use the `--env` command line switch",
+    "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file and use the `--env` command line switch",
   );
 } else {
   client.login(Deno.env.get("DISCORD_TOKEN"));
