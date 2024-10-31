@@ -1,6 +1,6 @@
 import { REST, Routes, SlashCommandBuilder } from "discord.js";
 
-const token: string = Deno.env.get("DISCORD_TOKEN");
+const token: string | null = Deno.env.get("DISCORD_TOKEN") ?? null;
 
 if (!token) {
   throw new Error(
