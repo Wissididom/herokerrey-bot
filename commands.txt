@@ -1,0 +1,2 @@
+deno run --env -ERWN main.ts
+deno run --env -EN setupCommands.ts

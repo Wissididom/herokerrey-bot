@@ -1,18 +1,19 @@
-import "dotenv/config";
-
 import {
   ActivityType,
+  Channel,
   Client,
+  CommandInteraction,
   Events,
   GatewayIntentBits,
   Partials,
+  TextChannel,
 } from "discord.js";
 
-import { handleYuh } from "./yuh.js";
-import { handleAutoResponder } from "./autoresponder.js";
-import { handleTimezoneGenerator } from "./timezonegenerator.js";
-import { handleTemperatureConverter } from "./temperatureconverter.js";
-import { handleQotd } from "./qotd.js";
+import { handleYuh } from "./yuh.ts";
+import { handleAutoResponder } from "./autoresponder.ts";
+import { handleTimezoneGenerator } from "./timezonegenerator.ts";
+import { handleTemperatureConverter } from "./temperatureconverter.ts";
+import { scheduleQotd } from "./qotd.ts";
 
 const client = new Client({
   intents: [
@@ -51,7 +52,14 @@ client.on(Events.ClientReady, async () => {
     name: "twitch.tv/herokerrey",
     type: ActivityType.Watching,
   });
-  await handleQotd(await client.channels.fetch(process.env.QOTD_CHANNEL));
+  if (Deno.env.has("QOTD_CHANNEL")) {
+    const channel: Channel | null = await client.channels.fetch(
+      Deno.env.get("QOTD_CHANNEL")!,
+    );
+    if (channel) {
+      scheduleQotd(channel as TextChannel);
+    }
+  }
 });
 
 client.on(Events.MessageCreate, async (msg) => {
@@ -61,11 +69,12 @@ client.on(Events.MessageCreate, async (msg) => {
 });
 
 client.on(Events.MessageUpdate, async (msg) => {
-  if (msg.author.bot) return; // skip messages by bots
+  if (msg.author?.bot) return; // skip messages by bots
   await handleYuh(msg, true);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
+  if (!(interaction instanceof CommandInteraction)) return;
   switch (interaction.commandName) {
     case "temperature":
       await handleTemperatureConverter(interaction);
@@ -76,10 +85,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-if (!process.env.DISCORD_TOKEN) {
+if (!Deno.env.has("DISCORD_TOKEN")) {
   console.log(
-    "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file.",
+    "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file and use the `--env` command line switch",
   );
 } else {
-  client.login(process.env.DISCORD_TOKEN);
+  client.login(Deno.env.get("DISCORD_TOKEN"));
 }
