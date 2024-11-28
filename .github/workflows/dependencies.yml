@@ -1,4 +1,4 @@
-name: Molt Update
+name: Dependency Update
 
 on:
   schedule:
@@ -33,15 +33,19 @@ jobs:
           printf "Update deno dependencies\n\n" > updater-output.txt
           deno outdated --update >> updater-output.txt
           cat updater-output.txt
-          printf "commit_message=$(<updater-output.txt)" >> $GITHUB_OUTPUT
+          {
+            echo 'pr_body<<EOF'
+            cat updater-output.txt
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
           rm updater-output.txt
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: steps.updater.outputs.commit_message
+          commit-message: ${{ steps.updater.outputs.pr_body }}
           branch: deno-update
           delete-branch: true
           sign-commits: true
           title: Deno update
-          body: steps.updater.outputs.commit_message
+          body: ${{ steps.updater.outputs.pr_body }}
           labels: dependencies
