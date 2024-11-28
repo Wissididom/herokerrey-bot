@@ -41,6 +41,7 @@ jobs:
           rm updater-output.txt
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
+        if: False
         with:
           commit-message: ${{ steps.updater.outputs.pr_body }}
           branch: deno-update
