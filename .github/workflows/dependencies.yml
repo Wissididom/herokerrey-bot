@@ -31,7 +31,7 @@ jobs:
         id: updater
         run: |
           printf "Update deno dependencies\n\n" > updater-output.txt
-          deno outdated --update >> updater-output.txt 2>&1
+          deno outdated --update >> updater-output.txt
           cat updater-output.txt
           printf "commit_message=$(<updater-output.txt)" >> $GITHUB_OUTPUT
           rm updater-output.txt
