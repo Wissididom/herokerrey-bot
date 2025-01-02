@@ -2,7 +2,6 @@ import {
   ActivityType,
   Channel,
   Client,
-  CommandInteraction,
   Events,
   GatewayIntentBits,
   Partials,
@@ -74,7 +73,9 @@ client.on(Events.MessageUpdate, async (msg) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!(interaction instanceof CommandInteraction)) return;
+  if (!(interaction.isChatInputCommand() || interaction.isAutocomplete())) {
+    return;
+  }
   switch (interaction.commandName) {
     case "temperature":
       await handleTemperatureConverter(interaction);

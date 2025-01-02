@@ -1,5 +1,9 @@
 import { DateTime } from "luxon";
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Interaction,
+  MessageFlags,
+} from "discord.js";
 
 const SUPPORTED_TIMEZONES: string[] = Intl.supportedValuesOf("timeZone");
 
@@ -31,7 +35,7 @@ function getContent(unix: number, preferUsability: boolean = false) {
 
 function getConsoleContent(
   currenttimestamp: boolean,
-  ephemeral: boolean,
+  pub: boolean,
   day: number | null = null,
   month: number | null = null,
   year: number | null = null,
@@ -41,9 +45,9 @@ function getConsoleContent(
   timezone: string | null = null,
 ) {
   if (currenttimestamp) {
-    return `[currenttimestamp] Executed /currenttimestamp (Ephemeral: ${ephemeral})`;
+    return `[currenttimestamp] Executed /currenttimestamp (Public: ${pub})`;
   }
-  return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`;
+  return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Public: ${pub}`;
 }
 
 export async function handleTimezoneGenerator(interaction: Interaction) {
@@ -51,13 +55,18 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
     const preferUsability: boolean =
       (interaction as ChatInputCommandInteraction).options.getBoolean(
         "prefer_usability",
-      ) ??
-        false;
-    const ephemeral: boolean = !(interaction as ChatInputCommandInteraction)
-      .options.getBoolean("public");
+      ) == true;
+    const pub: boolean =
+      (interaction as ChatInputCommandInteraction).options.getBoolean(
+        "public",
+      ) == true;
+    if (pub) {
+      await interaction.deferReply();
+    } else {
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    }
     switch (interaction.commandName) {
       case "timestamp": {
-        await interaction.deferReply({ ephemeral });
         const day: number =
           (interaction as ChatInputCommandInteraction).options.getInteger(
             "day",
@@ -103,7 +112,7 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
         console.log(
           getConsoleContent(
             false,
-            ephemeral,
+            pub,
             day,
             month,
             year,
@@ -116,16 +125,14 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
         break;
       }
       case "currenttimestamp": {
-        await interaction.deferReply({ ephemeral });
         const unix: number = DateTime.now().toUnixInteger();
         await interaction.editReply({
           content: getContent(unix, preferUsability),
         });
-        console.log(getConsoleContent(true, ephemeral));
+        console.log(getConsoleContent(true, pub));
         break;
       }
       case "converttime": {
-        await interaction.deferReply({ ephemeral });
         const day: number =
           (interaction as ChatInputCommandInteraction).options.getInteger(
             "day",
@@ -181,12 +188,11 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
             `\`${srcTime}\` (Timezone: \`${src}\`) in \`${dst}\` is \`${dstTime}\``,
         });
         console.log(
-          `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Ephemeral: ${ephemeral}`,
+          `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Public: ${pub}`,
         );
         break;
       }
       case "convertcurrenttime": {
-        await interaction.deferReply({ ephemeral });
         const timezone: string | null =
           (interaction as ChatInputCommandInteraction)
             .options.getString("timezone");
@@ -203,7 +209,7 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
           }\` is \`${currenttime}\``,
         });
         console.log(
-          `[convertcurrenttime] Executed /convertcurrenttime (Ephemeral: ${ephemeral})`,
+          `[convertcurrenttime] Executed /convertcurrenttime (Public: ${pub})`,
         );
         break;
       }

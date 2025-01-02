@@ -1,14 +1,24 @@
-import { ChatInputCommandInteraction, Interaction } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Interaction,
+  MessageFlags,
+} from "discord.js";
 
 export async function handleTemperatureConverter(
   interaction: Interaction,
 ) {
-  if (interaction.isCommand()) {
-    const ephemeral: boolean = !(interaction as ChatInputCommandInteraction)
-      .options.getBoolean("public");
+  if (interaction.isChatInputCommand()) {
+    const pub: boolean =
+      (interaction as ChatInputCommandInteraction).options.getBoolean(
+        "public",
+      ) == true;
+    if (pub) {
+      await interaction.deferReply();
+    } else {
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    }
     switch (interaction.commandName) {
       case "temperature": {
-        await interaction.deferReply({ ephemeral });
         let response: string = "N/A";
         const source: string | null =
           (interaction as ChatInputCommandInteraction)
@@ -194,7 +204,7 @@ export async function handleTemperatureConverter(
         await interaction.editReply({
           content: response,
         });
-        console.log(`[temperature] ${response} (Ephemeral: ${ephemeral})`);
+        console.log(`[temperature] ${response} (Public: ${pub})`);
         break;
       }
     }
