@@ -299,6 +299,45 @@ const rest = new REST().setToken(token);
           )
           .setRequired(false)
       ),
+    new SlashCommandBuilder()
+      .setName("volumes")
+      .setDescription("Convert different volume formats")
+      .addStringOption((option) =>
+        option
+          .setName("source")
+          .setDescription("Source volume format")
+          .setRequired(true)
+          .addChoices(
+            { name: "mililiter", value: "ml" },
+            { name: "liter", value: "l" },
+            { name: "gallon", value: "gal" },
+          )
+      )
+      .addStringOption((option) =>
+        option
+          .setName("target")
+          .setDescription("Target volume format")
+          .setRequired(true)
+          .addChoices(
+            { name: "mililiter", value: "ml" },
+            { name: "liter", value: "l" },
+            { name: "gallon", value: "gal" },
+          )
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("value")
+          .setDescription("The volume value")
+          .setRequired(true)
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("public")
+          .setDescription(
+            "Should the response be visible to everyone? (Default: False)",
+          )
+          .setRequired(false)
+      ),
   ];
   try {
     console.log(

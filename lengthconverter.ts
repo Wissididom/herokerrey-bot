@@ -442,7 +442,7 @@ export async function handleLengthConverter(
         await interaction.editReply({
           content: response,
         });
-        console.log(`[lengths] ${response} (Public: ${pub})`);
+        console.log(`[weights] ${response} (Public: ${pub})`);
         break;
       }
     }
