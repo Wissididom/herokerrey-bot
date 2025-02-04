@@ -13,6 +13,7 @@ import { handleAutoResponder } from "./autoresponder.ts";
 import { handleTimezoneGenerator } from "./timezonegenerator.ts";
 import { handleTemperatureConverter } from "./temperatureconverter.ts";
 import { handleLengthConverter } from "./lengthconverter.ts";
+import { handleWeightConverter } from "./weightconverter.ts";
 import { scheduleQotd } from "./qotd.ts";
 
 const client = new Client({
@@ -83,6 +84,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
       break;
     case "lengths":
       await handleLengthConverter(interaction);
+      break;
+    case "weights":
+      await handleWeightConverter(interaction);
       break;
     default:
       await handleTimezoneGenerator(interaction);

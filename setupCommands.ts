@@ -258,6 +258,47 @@ const rest = new REST().setToken(token);
           )
           .setRequired(false)
       ),
+    new SlashCommandBuilder()
+      .setName("weights")
+      .setDescription("Convert different weight formats")
+      .addStringOption((option) =>
+        option
+          .setName("source")
+          .setDescription("Source weight format")
+          .setRequired(true)
+          .addChoices(
+            { name: "gram", value: "g" },
+            { name: "kilogram", value: "kg" },
+            { name: "ounce", value: "oz" },
+            { name: "pound", value: "lb" },
+          )
+      )
+      .addStringOption((option) =>
+        option
+          .setName("target")
+          .setDescription("Target weight format")
+          .setRequired(true)
+          .addChoices(
+            { name: "gram", value: "g" },
+            { name: "kilogram", value: "kg" },
+            { name: "ounce", value: "oz" },
+            { name: "pound", value: "lb" },
+          )
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("value")
+          .setDescription("The weight value")
+          .setRequired(true)
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("public")
+          .setDescription(
+            "Should the response be visible to everyone? (Default: False)",
+          )
+          .setRequired(false)
+      ),
   ];
   try {
     console.log(
