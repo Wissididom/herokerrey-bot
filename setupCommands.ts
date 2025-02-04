@@ -207,6 +207,57 @@ const rest = new REST().setToken(token);
           )
           .setRequired(false)
       ),
+    new SlashCommandBuilder()
+      .setName("lengths")
+      .setDescription("Convert different length formats")
+      .addStringOption((option) =>
+        option
+          .setName("source")
+          .setDescription("Source length format")
+          .setRequired(true)
+          .addChoices(
+            { name: "milimeter", value: "mm" },
+            { name: "centimeter", value: "cm" },
+            { name: "decimeter", value: "dm" },
+            { name: "meter", value: "m" },
+            { name: "kilometer", value: "km" },
+            { name: "inch", value: "in" },
+            { name: "feet", value: "ft" },
+            { name: "mile", value: "mi" },
+            { name: "yard", value: "yd" },
+          )
+      )
+      .addStringOption((option) =>
+        option
+          .setName("target")
+          .setDescription("Target length format")
+          .setRequired(true)
+          .addChoices(
+            { name: "milimeter", value: "mm" },
+            { name: "centimeter", value: "cm" },
+            { name: "decimeter", value: "dm" },
+            { name: "meter", value: "m" },
+            { name: "kilometer", value: "km" },
+            { name: "inch", value: "in" },
+            { name: "feet", value: "ft" },
+            { name: "mile", value: "mi" },
+            { name: "yard", value: "yd" },
+          )
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("value")
+          .setDescription("The length value")
+          .setRequired(true)
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("public")
+          .setDescription(
+            "Should the response be visible to everyone? (Default: False)",
+          )
+          .setRequired(false)
+      ),
   ];
   try {
     console.log(

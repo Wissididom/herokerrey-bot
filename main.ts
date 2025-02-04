@@ -12,6 +12,7 @@ import { handleYuh } from "./yuh.ts";
 import { handleAutoResponder } from "./autoresponder.ts";
 import { handleTimezoneGenerator } from "./timezonegenerator.ts";
 import { handleTemperatureConverter } from "./temperatureconverter.ts";
+import { handleLengthConverter } from "./lengthconverter.ts";
 import { scheduleQotd } from "./qotd.ts";
 
 const client = new Client({
@@ -79,6 +80,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
   switch (interaction.commandName) {
     case "temperature":
       await handleTemperatureConverter(interaction);
+      break;
+    case "lengths":
+      await handleLengthConverter(interaction);
       break;
     default:
       await handleTimezoneGenerator(interaction);
