@@ -50,7 +50,7 @@ export async function handleYuh(
       });
     }
     if (
-      message.content == "yuh" ||
+      message.content?.toLowerCase() == "yuh" ||
       message.content == Deno.env.get("YUH_EMOTE_CODE")
     ) {
       await webhook.send({
