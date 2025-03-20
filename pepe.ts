@@ -8,18 +8,19 @@ export async function handlePepe(
   const ignoredRoles = Deno.env.get("PEPE_IGNORED_ROLES")?.split(",");
   if (ignoredRoles) {
     for (const ignoredRole of ignoredRoles) {
-      console.log(ignoredRole);
-      if (message.member.roles.cache.find((r) => r.id == ignoredRole)) {
-        console.log("Ignored");
+      if (message.member?.roles.cache.find((r) => r.id == ignoredRole)) {
         // If user has an ignored role skip pepe handler
         return true;
       }
     }
   }
   // https://discord.com/developers/docs/reference#message-formatting
-  if (/<a?:[Pp]+[Ee]+[Pp]+(?:[Ee]|[Oo])+.*:\d+>/gi.test(message.content)) {
+  if (
+    message.content &&
+    /<a?:[Pp]+[Ee]+[Pp]+(?:[Ee]|[Oo])+.*:\d+>/gi.test(message.content)
+  ) {
     const reply = await message.reply({
-      content: `<@${message.author.id}> please don't post any pepe emotes`,
+      content: `<@${message.author?.id}> please don't post any pepe emotes`,
       allowedMentions: { parse: [] },
     });
     await message.delete();
