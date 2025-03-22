@@ -18,8 +18,14 @@ export async function handlePepe(
   if (ignoredRoles) {
     for (const ignoredRole of ignoredRoles) {
       if (message.member?.roles.cache.find((r) => r.id == ignoredRole)) {
-        // If user has an ignored role skip pepe handler
-        return true;
+        // If user has an ignored role
+        if (message.content?.includes("[bypassrolecheck]")) {
+          // Exit for
+          break;
+        } else {
+          // skip pepe handler
+          return true;
+        }
       }
     }
   }
@@ -29,11 +35,15 @@ export async function handlePepe(
     /<a?:.*[Pp]+[Ee]+[Pp]+(?:[Ee]|[Oo])+.*:\d+>/gi.test(message.content)
   ) {
     const reply = await message.reply({
-      content: `<@${message.author?.id}> please don't post any pepe emotes`,
+      content: Deno.env.get("PEPE_LOG_DELETION_MESSAGE")?.replace(
+        /<mention>/g,
+        `<@${message.author?.id}>`,
+      ) ??
+        `<@${message.author?.id}> please don't post any pepe emotes`,
       allowedMentions: { parse: [] },
     });
     await message.delete();
-    setTimeout(async () => await reply.delete(), 2 * 60 * 1000);
+    setTimeout(async () => await reply.delete(), 30 * 1000);
     return false;
   }
   return true;
