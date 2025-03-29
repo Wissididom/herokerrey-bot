@@ -28,10 +28,13 @@ async function handleQotd(channel: TextChannel) {
       await Deno.readTextFile("./ignored_qotd.json"),
     );
     try {
-      const response: string = await fetch("https://pastebin.com/raw/9vFjjvZh")
-        .then(
-          (res) => res.text(),
-        );
+      const qotdLink = Deno.env.get("QOTD_LINK");
+      const response: string = qotdLink
+        ? await fetch(qotdLink)
+          .then(
+            (res) => res.text(),
+          )
+        : "";
       const lines: string[] = fisherYatesShuffle(response.split(/\r?\n/g));
       let chosenLine: string | null = null;
       for (const line of lines) {
