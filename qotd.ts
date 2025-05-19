@@ -16,7 +16,6 @@ export function scheduleQotd(channel: TextChannel) {
       await handleQotd(channel);
     },
     {
-      scheduled: true,
       timezone: Deno.env.get("QOTD_TIMEZONE"),
     },
   );
