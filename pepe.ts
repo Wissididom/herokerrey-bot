@@ -73,36 +73,44 @@ export async function handleReactionPepe(
       embeds: [
         new EmbedBuilder().setTitle("Pepe-Reaction removed").addFields(
           {
-            name: "Count",
+            name: "Total Count",
             value: reaction.count?.toString() ?? "N/A",
+            inline: true,
           },
           {
-            name: "Normal",
+            name: "Normal Reactions",
             value: reaction.countDetails.normal.toString(),
+            inline: true,
           },
           {
-            name: "Super",
+            name: "Super Reactions",
             value: reaction.countDetails.burst.toString(),
+            inline: true,
           },
           {
             name: "Image",
             value: reaction.emoji.imageURL() ?? "N/A",
+            inline: false,
           },
           {
             name: "Emoji-ID",
             value: reaction.emoji.id ?? "N/A",
+            inline: true,
           },
           {
             name: "Emoji-Name",
             value: reaction.emoji.name ?? "N/A",
+            inline: true,
           },
           {
             name: "Message",
             value: `[Jump to Message](<${reaction.message.url}>)`,
+            inline: false,
           },
           {
             name: "User",
             value: `<@${user.id}> (${user.username})`,
+            inline: false,
           },
         ),
       ],
