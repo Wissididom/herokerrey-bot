@@ -17,6 +17,8 @@ function getContent(unix: number, preferUsability: boolean = false) {
 <t:${unix}:D>: \`<t:${unix}:D>\`
 <t:${unix}:f>: \`<t:${unix}:f>\`
 <t:${unix}:F>: \`<t:${unix}:F>\`
+<t:${unix}:s>: \`<t:${unix}:s>\`
+<t:${unix}:S>: \`<t:${unix}:S>\`
 <t:${unix}:R>: \`<t:${unix}:R>\`
 		`;
   } else {
@@ -28,6 +30,8 @@ function getContent(unix: number, preferUsability: boolean = false) {
 \`<t:${unix}:D>\`: <t:${unix}:D>
 \`<t:${unix}:f>\`: <t:${unix}:f>
 \`<t:${unix}:F>\`: <t:${unix}:F>
+\`<t:${unix}:s>\`: <t:${unix}:s>
+\`<t:${unix}:S>\`: <t:${unix}:S>
 \`<t:${unix}:R>\`: <t:${unix}:R>
 		`;
   }
