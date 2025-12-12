@@ -50,7 +50,7 @@ jobs:
         name: Checkout Code
 
       # Windows
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         name: Download Windows
         with:
           name: herokerrey-bot-windows-latest
@@ -59,7 +59,7 @@ jobs:
       - name: Rename Windows Binary
         run: mv release-artifacts/herokerrey-bot.exe release-artifacts/herokerrey-bot-Windows.exe
 
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         name: Download Linux
         with:
           name: herokerrey-bot-ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
       - name: Rename Linux Binary
         run: mv release-artifacts/herokerrey-bot release-artifacts/herokerrey-bot-Linux
 
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         name: Download Mac
         with:
           name: herokerrey-bot-macos-latest
