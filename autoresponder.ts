@@ -1,6 +1,7 @@
 import { Message, TextChannel } from "discord.js";
 
 export async function handleAutoResponder(message: Message) {
+  if (message.author.bot) return;
   if (
     Deno.env.has("AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS") &&
     Deno.env.get("AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS")!.split(",").includes(
@@ -9,9 +10,8 @@ export async function handleAutoResponder(message: Message) {
   ) {
     return; // Don't do things in a channel listed in the exclusion channels
   }
-  const randomNumber = Math.floor(Math.random() * 100); // between 0 and 100 (both included)
-  if (randomNumber > 20) {
-    return; // Only run autoresponder if random number is below 20
+  if (Math.random() >= 0.2) {
+    return; // Only run autoresponder ~20% of the time
   }
   const lowercaseMessageContent: string = message.content.toLowerCase();
   if (/\bdragon\b/gi.test(lowercaseMessageContent)) {
