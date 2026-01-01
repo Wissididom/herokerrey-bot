@@ -9,6 +9,10 @@ export async function handleAutoResponder(message: Message) {
   ) {
     return; // Don't do things in a channel listed in the exclusion channels
   }
+  const randomNumber = Math.floor(Math.random() * 100); // between 0 and 100 (both included)
+  if (randomNumber > 20) {
+    return; // Only run autoresponder if random number is below 20
+  }
   const lowercaseMessageContent: string = message.content.toLowerCase();
   if (/\bdragon\b/gi.test(lowercaseMessageContent)) {
     await (message.channel as TextChannel).send({
