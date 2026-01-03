@@ -105,12 +105,17 @@ export async function handleReactionPepe(
           {
             name: "Message",
             value: `[Jump to Message](<${reaction.message.url}>)`,
-            inline: false,
+            inline: true,
+          },
+          {
+            name: "Channel",
+            value: `<#${reaction.message.channel.id}>`,
+            inline: true,
           },
           {
             name: "User",
             value: `<@${user.id}> (${user.username})`,
-            inline: false,
+            inline: true,
           },
         ),
       ],
