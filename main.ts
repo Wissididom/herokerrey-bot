@@ -66,7 +66,7 @@ client.on(Events.ClientReady, async () => {
 });
 
 client.on(Events.MessageCreate, async (msg) => {
-  if (msg.author.id != "656621136808902656" && msg.embeds.length > 0) { // birthday bot
+  if (msg.author.id == "656621136808902656" && msg.embeds.length > 0) {
     const embedDescription = msg.embeds[0].description;
     const userRegex = /<@!?(\d+)>/g;
     const userIds = [...embedDescription.matchAll(userRegex)].map((m) => m[1]);
