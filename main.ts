@@ -66,6 +66,29 @@ client.on(Events.ClientReady, async () => {
 });
 
 client.on(Events.MessageCreate, async (msg) => {
+  if (msg.author.id != "656621136808902656" && msg.embeds.length > 0) { // birthday bot
+    const embedDescription = msg.embeds[0].description;
+    const userRegex = /<@!?(\d+)>/g;
+    const userIds = [...embedDescription.matchAll(userRegex)].map((m) => m[1]);
+    const users = await Promise.all(userIds.map(async (id) => {
+      try {
+        return await client.users.fetch(id);
+      } catch {
+        return null;
+      }
+    }));
+    const usernames = users.filter(Boolean).map((u) => u.username);
+    if (usernames.length < 1) return;
+    try {
+      await msg.channel.send({ content: usernames.join(", ") });
+    } catch (err) {
+      console.error(
+        "Could not send message for resolving birthday bot mentions",
+        err,
+      );
+    }
+    return;
+  }
   if (msg.author.bot) return; // skip messages by bots
   if (await handlePepe(msg, false)) {
     await handleYuh(msg, false);
