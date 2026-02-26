@@ -68,6 +68,7 @@ client.on(Events.ClientReady, async () => {
 client.on(Events.MessageCreate, async (msg) => {
   if (msg.author.id == "656621136808902656" && msg.embeds.length > 0) {
     const embedDescription = msg.embeds[0].description;
+    if (!embedDescription) return;
     const userRegex = /<@!?(\d+)>/g;
     const userIds = [...embedDescription.matchAll(userRegex)].map((m) => m[1]);
     const users = await Promise.all(userIds.map(async (id) => {
@@ -77,7 +78,9 @@ client.on(Events.MessageCreate, async (msg) => {
         return null;
       }
     }));
-    const usernames = users.filter(Boolean).map((u) => u.username);
+    const usernames = users.filter((u): u is NonNullable<typeof u> =>
+      u !== null
+    ).map((u) => u.username);
     if (usernames.length < 1) return;
     try {
       await msg.channel.send({ content: usernames.join(", ") });
