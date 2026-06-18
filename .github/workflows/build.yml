@@ -26,9 +26,11 @@ jobs:
         run: |
           deno install
       - name: Compile (Windows)
+        if: startsWith(matrix.os, 'windows')
         run: |
           deno compile -o herokerrey-bot-${{ matrix.os }}.exe -ERWN main.ts
       - name: Compile (Ubuntu and Mac)
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macos')
         run: |
           deno compile -o herokerrey-bot-${{ matrix.os }} -ERWN main.ts
       - name: Upload artifact (Windows)
