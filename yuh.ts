@@ -49,10 +49,13 @@ export async function handleYuh(
         reason: "yuh-bot",
       });
     }
-    if (
-      message.content?.toLowerCase() == "yuh" ||
-      message.content == Deno.env.get("YUH_EMOTE_CODE")
-    ) {
+    const content = message.content?.trim() ?? "";
+    const emote = Deno.env.get("YUH_EMOTE_CODE") ?? "";
+    const parts = content.split(/\s+/g);
+    const isYuh =
+      parts.length > 0 && parts.every((part) => part.toLowerCase() === "yuh") ||
+      (emote && parts.length > 0 && parts.every((part) => part === emote));
+    if (isYuh) {
       await webhook.send({
         content: Deno.env.get("YUH_EMOTE_CODE"),
       });
