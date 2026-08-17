@@ -31,8 +31,8 @@ async function handleQotd(channel: TextChannel) {
       const response: string = qotdLink
         ? await fetch(qotdLink, {
           headers: {
-            "User-Agent": "Wissididom/herokerrey-bot"
-          }
+            "User-Agent": "Wissididom/herokerrey-bot",
+          },
         })
           .then(
             (res) => res.text(),
