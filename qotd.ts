@@ -30,10 +30,10 @@ async function handleQotd(channel: TextChannel) {
       const qotdLink = Deno.env.get("QOTD_LINK");
       const response: string = qotdLink
         ? await fetch(qotdLink, {
-            headers: {
-              "User-Agent": "Wissididom/herokerrey-bot"
-            }
-          })
+          headers: {
+            "User-Agent": "Wissididom/herokerrey-bot"
+          }
+        })
           .then(
             (res) => res.text(),
           )
