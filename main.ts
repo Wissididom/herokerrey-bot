@@ -15,7 +15,6 @@ import { handleTemperatureConverter } from "./temperatureconverter.ts";
 import { handleLengthConverter } from "./lengthconverter.ts";
 import { handleWeightConverter } from "./weightconverter.ts";
 import { handleVolumeConverter } from "./volumeconverter.ts";
-import { handlePepe, handleReactionPepe } from "./pepe.ts";
 import { scheduleQotd } from "./qotd.ts";
 
 const client = new Client({
@@ -93,22 +92,13 @@ client.on(Events.MessageCreate, async (msg) => {
     return;
   }
   if (msg.author.bot) return; // skip messages by bots
-  if (await handlePepe(msg, false)) {
-    await handleYuh(msg, false);
-    await handleAutoResponder(msg);
-  }
+  await handleYuh(msg, false);
+  await handleAutoResponder(msg);
 });
 
 client.on(Events.MessageUpdate, async (msg) => {
   if (msg.author?.bot) return; // skip messages by bots
-  if (await handlePepe(msg, true)) {
-    await handleYuh(msg, true);
-  }
-});
-
-client.on(Events.MessageReactionAdd, async (reaction, user, details) => {
-  if (user.bot) return;
-  await handleReactionPepe(reaction, user, details);
+  await handleYuh(msg, true);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
