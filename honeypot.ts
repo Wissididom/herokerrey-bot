@@ -17,9 +17,7 @@ export async function handleHoneypot(
     }
     if (!message.member) return;
     await message.member.send({
-      content: `Du hast eine Nachricht in den ${
-        message.channel.isDMBased() ? "DM" : message.channel.name
-      } Channel gesendet. Falls du gehackt wurdest ändere deine Passwörter und setze dein Betriebssystem neu auf, für den Fall, dass du dir Malware eingefangen hast. Du wurdest gesoftbanned/gekickt.\n\nYou sent a message in the ${
+      content: `You sent a message in the ${
         message.channel.isDMBased() ? "DM" : message.channel.name
       } channel. If you've been hacked, change your passwords and reset your operating system, for the case that you've gotten Malware on it. You were soft-banned/kicked.`,
     }).catch(console.error);
