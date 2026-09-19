@@ -4,6 +4,7 @@ import {
   Client,
   Events,
   GatewayIntentBits,
+  Message,
   Partials,
   TextChannel,
 } from "discord.js";
@@ -15,6 +16,7 @@ import { handleTemperatureConverter } from "./temperatureconverter.ts";
 import { handleLengthConverter } from "./lengthconverter.ts";
 import { handleWeightConverter } from "./weightconverter.ts";
 import { handleVolumeConverter } from "./volumeconverter.ts";
+import { handleHoneypot } from "./honeypot.ts";
 import { scheduleQotd } from "./qotd.ts";
 
 const client = new Client({
@@ -64,7 +66,7 @@ client.on(Events.ClientReady, async () => {
   }
 });
 
-client.on(Events.MessageCreate, async (msg) => {
+client.on(Events.MessageCreate, async (msg: Message) => {
   if (msg.author.id == "656621136808902656" && msg.embeds.length > 0) {
     const embedDescription = msg.embeds[0].description;
     if (!embedDescription) return;
@@ -82,16 +84,26 @@ client.on(Events.MessageCreate, async (msg) => {
     ).map((u) => u.username);
     if (usernames.length < 1) return;
     try {
-      await msg.channel.send({ content: usernames.join(", ") });
+      if (msg.channel.isSendable()) {
+        await msg.channel.send({ content: usernames.join(", ") });
+      } else {
+        console.error(
+          "Could not send message for resolving birthday bot mentions (channel is not sendable)",
+        );
+      }
     } catch (err) {
       console.error(
-        "Could not send message for resolving birthday bot mentions",
+        "Could not send message for resolving birthday bot mentions (exception occured)",
         err,
       );
     }
     return;
   }
+  if (msg.author.system) return; // skip system messages
   if (msg.author.bot) return; // skip messages by bots
+  if (Deno.env.has("HONEYPOT_CHANNEL")) {
+    await handleHoneypot(msg, Deno.env.get("HONEYPOT_CHANNEL")!);
+  }
   await handleYuh(msg, false);
   await handleAutoResponder(msg);
 });
