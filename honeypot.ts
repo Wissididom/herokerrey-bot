@@ -1,8 +1,9 @@
-import { Message, PermissionsBitField } from "discord.js";
+import { Attachment, Message, PermissionsBitField } from "discord.js";
 
 export async function handleHoneypot(
   message: Message,
   honeypotChannelId: string,
+  honeypotLogChannelId: string | null,
 ) {
   if (message.channelId == honeypotChannelId) {
     console.log("Honeypot post");
@@ -29,5 +30,25 @@ export async function handleHoneypot(
     if (!memberId) return;
     await message.guild?.members.unban(memberId, "Honeypot triggered")
       .then(console.log).catch(console.error);
+    if (honeypotLogChannelId !== null) {
+      try {
+        const channel = await message.guild?.channels.fetch(
+          honeypotLogChannelId,
+        );
+        if (channel?.isSendable()) {
+          const attachments: Attachment[] = [];
+          for (const [_, attachment] of message.attachments) {
+            attachments.push(attachment);
+          }
+          await channel?.send({
+            content:
+              `<@${message.author.id}> (${message.author.username}) triggered honeypot:\nMessage:\n\`\`\`\n${message.content}\n\`\`\``,
+            files: attachments,
+          });
+        }
+      } catch {
+        // do nothing as this should only happen if there are connectivity problems with Discord, permission problems or not finding the channel
+      }
+    }
   }
 }
