@@ -102,7 +102,11 @@ client.on(Events.MessageCreate, async (msg: Message) => {
   if (msg.author.system) return; // skip system messages
   if (msg.author.bot) return; // skip messages by bots
   if (Deno.env.has("HONEYPOT_CHANNEL")) {
-    await handleHoneypot(msg, Deno.env.get("HONEYPOT_CHANNEL")!);
+    await handleHoneypot(
+      msg,
+      Deno.env.get("HONEYPOT_CHANNEL")!,
+      Deno.env.get("HONEYPOT_LOG_CHANNEL") ?? null,
+    );
   }
   await handleYuh(msg, false);
   await handleAutoResponder(msg);
