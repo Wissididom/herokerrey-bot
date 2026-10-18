@@ -1,0 +1,16 @@
+{
+  "components": [
+    {
+      "type": 17,
+      "accent_color": 12533824,
+      "spoiler": false,
+      "components": [
+        {
+          "type": 10,
+          "content": "Happy Birthday <@583803514493337611>"
+        }
+      ]
+    }
+  ],
+  "flags": 32768
+}
