@@ -55,7 +55,7 @@ async function handleQotd(channel: TextChannel) {
             .setColor(0xe75eff),
         ],
       });
-      await writeFile(JSON.stringify(ignoredQotd), "./ignored_qotd.json");
+      await writeFile("./ignored_qotd.json", JSON.stringify(ignoredQotd));
     } catch (err) {
       console.error(err);
     }
