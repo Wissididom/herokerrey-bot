@@ -2,11 +2,13 @@ import {
   ActivityType,
   Channel,
   Client,
+  ContainerComponent,
   Events,
   GatewayIntentBits,
   Message,
   Partials,
   TextChannel,
+  TextDisplayComponent,
 } from "discord.js";
 
 import { handleYuh } from "./yuh.js";
@@ -67,11 +69,14 @@ client.on(Events.ClientReady, async () => {
 });
 
 client.on(Events.MessageCreate, async (msg: Message) => {
-  if (msg.author.id == "656621136808902656" && msg.embeds.length > 0) {
-    const embedDescription = msg.embeds[0].description;
-    if (!embedDescription) return;
+  if (msg.author.id == "656621136808902656" && msg.components.length > 0) {
+    const componentContent = (
+      (msg.components[0] as ContainerComponent)
+        ?.components[0] as TextDisplayComponent
+    )?.content;
+    if (!componentContent) return;
     const userRegex = /<@!?(\d+)>/g;
-    const userIds = [...embedDescription.matchAll(userRegex)].map((m) => m[1]);
+    const userIds = [...componentContent.matchAll(userRegex)].map((m) => m[1]);
     const users = await Promise.all(
       userIds.map(async (id) => {
         try {
