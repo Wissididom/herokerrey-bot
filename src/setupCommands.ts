@@ -1,6 +1,12 @@
-import { REST, Routes, SlashCommandBuilder } from "discord.js";
+import {
+  ApplicationIntegrationType,
+  InteractionContextType,
+  REST,
+  Routes,
+  SlashCommandBuilder,
+} from "discord.js";
 
-const token: string | null = Deno.env.get("DISCORD_TOKEN") ?? null;
+const token: string | null = process.env.DISCORD_TOKEN ?? null;
 
 if (!token) {
   throw new Error(
@@ -18,50 +24,50 @@ const rest = new REST().setToken(token);
         "Generate Discord timestamps based on a given time and timezone",
       )
       .addIntegerOption((option) =>
-        option.setName("day").setDescription("Day (1 - 31)").setRequired(true)
+        option.setName("day").setDescription("Day (1 - 31)").setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("month")
           .setDescription("Month (1 - 12)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("year")
           .setDescription("Year (min. 1970)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("hour")
           .setDescription("Hour (0 - 23)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("minute")
           .setDescription("Minute (0 - 59)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName("timezone")
           .setDescription("Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true)
+          .setAutocomplete(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("second")
           .setDescription("Second (0 - 59)")
-          .setRequired(false)
+          .setRequired(false),
       )
       .addBooleanOption((option) =>
         option
           .setName("prefer_usability")
           .setDescription('"preview: code" (true); "code: preview" (false)')
-          .setRequired(false)
+          .setRequired(false),
       )
       .addBooleanOption((option) =>
         option
@@ -69,7 +75,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("currenttimestamp")
@@ -78,7 +84,7 @@ const rest = new REST().setToken(token);
         option
           .setName("prefer_usability")
           .setDescription('"preview: code" (true); "code: preview" (false)')
-          .setRequired(false)
+          .setRequired(false),
       )
       .addBooleanOption((option) =>
         option
@@ -86,57 +92,57 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("converttime")
       .setDescription("Convert a date and time between timezones")
       .addIntegerOption((option) =>
-        option.setName("day").setDescription("Day (1 - 31)").setRequired(true)
+        option.setName("day").setDescription("Day (1 - 31)").setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("month")
           .setDescription("Month (1 - 12)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("year")
           .setDescription("Year (min. 1970)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("hour")
           .setDescription("Hour (0 - 23)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("minute")
           .setDescription("Minute (0 - 59)")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName("src")
           .setDescription("Source Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true)
+          .setAutocomplete(true),
       )
       .addStringOption((option) =>
         option
           .setName("dst")
           .setDescription("Destination Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true)
+          .setAutocomplete(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("second")
           .setDescription("Second (0 - 59)")
-          .setRequired(false)
+          .setRequired(false),
       )
       .addBooleanOption((option) =>
         option
@@ -144,7 +150,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("convertcurrenttime")
@@ -154,7 +160,7 @@ const rest = new REST().setToken(token);
           .setName("timezone")
           .setDescription("Timezone (Format: continent/city)")
           .setRequired(true)
-          .setAutocomplete(true)
+          .setAutocomplete(true),
       )
       .addBooleanOption((option) =>
         option
@@ -162,7 +168,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("temperature")
@@ -178,7 +184,7 @@ const rest = new REST().setToken(token);
             { name: "K", value: "k" },
             { name: "°R", value: "r" },
             { name: "°Ré", value: "é" },
-          )
+          ),
       )
       .addStringOption((option) =>
         option
@@ -191,13 +197,13 @@ const rest = new REST().setToken(token);
             { name: "K", value: "k" },
             { name: "°R", value: "r" },
             { name: "°Ré", value: "é" },
-          )
+          ),
       )
       .addNumberOption((option) =>
         option
           .setName("value")
           .setDescription("The temperature value")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addBooleanOption((option) =>
         option
@@ -205,7 +211,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("lengths")
@@ -225,7 +231,7 @@ const rest = new REST().setToken(token);
             { name: "feet", value: "ft" },
             { name: "mile", value: "mi" },
             { name: "yard", value: "yd" },
-          )
+          ),
       )
       .addStringOption((option) =>
         option
@@ -242,13 +248,13 @@ const rest = new REST().setToken(token);
             { name: "feet", value: "ft" },
             { name: "mile", value: "mi" },
             { name: "yard", value: "yd" },
-          )
+          ),
       )
       .addNumberOption((option) =>
         option
           .setName("value")
           .setDescription("The length value")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addBooleanOption((option) =>
         option
@@ -256,7 +262,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("weights")
@@ -271,7 +277,7 @@ const rest = new REST().setToken(token);
             { name: "kilogram", value: "kg" },
             { name: "ounce", value: "oz" },
             { name: "pound", value: "lb" },
-          )
+          ),
       )
       .addStringOption((option) =>
         option
@@ -283,13 +289,13 @@ const rest = new REST().setToken(token);
             { name: "kilogram", value: "kg" },
             { name: "ounce", value: "oz" },
             { name: "pound", value: "lb" },
-          )
+          ),
       )
       .addNumberOption((option) =>
         option
           .setName("value")
           .setDescription("The weight value")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addBooleanOption((option) =>
         option
@@ -297,7 +303,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
     new SlashCommandBuilder()
       .setName("volumes")
@@ -311,7 +317,7 @@ const rest = new REST().setToken(token);
             { name: "mililiter", value: "ml" },
             { name: "liter", value: "l" },
             { name: "gallon", value: "gal" },
-          )
+          ),
       )
       .addStringOption((option) =>
         option
@@ -322,13 +328,13 @@ const rest = new REST().setToken(token);
             { name: "mililiter", value: "ml" },
             { name: "liter", value: "l" },
             { name: "gallon", value: "gal" },
-          )
+          ),
       )
       .addNumberOption((option) =>
         option
           .setName("value")
           .setDescription("The volume value")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addBooleanOption((option) =>
         option
@@ -336,7 +342,7 @@ const rest = new REST().setToken(token);
           .setDescription(
             "Should the response be visible to everyone? (Default: False)",
           )
-          .setRequired(false)
+          .setRequired(false),
       ),
   ];
   try {
@@ -345,24 +351,23 @@ const rest = new REST().setToken(token);
     );
     // TODO: Put inside if, if or when there ever will be commands that can only be run on a server
     for (let i = 0; i < registerArray.length; i++) {
-      registerArray[i] = registerArray[i].toJSON();
-      registerArray[i].integration_types = [
-        0, // Guild Install
-        1, // User Install
-      ];
-      registerArray[i].contexts = [
-        0, // Guild
-        1, // Bot DM
-        2, // Private Channel
-      ];
+      registerArray[i].setIntegrationTypes(
+        ApplicationIntegrationType.GuildInstall,
+        ApplicationIntegrationType.UserInstall,
+      );
+      registerArray[i].setContexts(
+        InteractionContextType.Guild,
+        InteractionContextType.BotDM,
+        InteractionContextType.PrivateChannel,
+      );
     }
     const userData = await rest.get(Routes.user());
-    const userId = userData.id;
+    const userId = (userData as any).id;
     const data = await rest.put(Routes.applicationCommands(userId), {
       body: registerArray,
     });
     console.log(
-      `Successfully reloaded ${data.length} application (/) commands.`,
+      `Successfully reloaded ${(data as any[]).length} application (/) commands.`,
     );
   } catch (err) {
     console.error(err);
