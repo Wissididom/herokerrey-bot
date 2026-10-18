@@ -4,9 +4,7 @@ import {
   MessageFlags,
 } from "discord.js";
 
-export async function handleWeightConverter(
-  interaction: Interaction,
-) {
+export async function handleWeightConverter(interaction: Interaction) {
   if (interaction.isChatInputCommand()) {
     const pub: boolean =
       (interaction as ChatInputCommandInteraction).options.getBoolean(
@@ -20,14 +18,16 @@ export async function handleWeightConverter(
     switch (interaction.commandName) {
       case "weights": {
         let response: string = "N/A";
-        const source: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("source");
-        const target: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("target");
-        const value: number = (interaction as ChatInputCommandInteraction)
-          .options.getNumber("value") ?? 1;
+        const source: string | null = (
+          interaction as ChatInputCommandInteraction
+        ).options.getString("source");
+        const target: string | null = (
+          interaction as ChatInputCommandInteraction
+        ).options.getString("target");
+        const value: number =
+          (interaction as ChatInputCommandInteraction).options.getNumber(
+            "value",
+          ) ?? 1;
         switch (source) {
           case "g": {
             switch (target) {

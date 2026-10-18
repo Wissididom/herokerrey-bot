@@ -4,9 +4,7 @@ import {
   MessageFlags,
 } from "discord.js";
 
-export async function handleLengthConverter(
-  interaction: Interaction,
-) {
+export async function handleLengthConverter(interaction: Interaction) {
   if (interaction.isChatInputCommand()) {
     const pub: boolean =
       (interaction as ChatInputCommandInteraction).options.getBoolean(
@@ -20,14 +18,16 @@ export async function handleLengthConverter(
     switch (interaction.commandName) {
       case "lengths": {
         let response: string = "N/A";
-        const source: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("source");
-        const target: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("target");
-        const value: number = (interaction as ChatInputCommandInteraction)
-          .options.getNumber("value") ?? 1;
+        const source: string | null = (
+          interaction as ChatInputCommandInteraction
+        ).options.getString("source");
+        const target: string | null = (
+          interaction as ChatInputCommandInteraction
+        ).options.getString("target");
+        const value: number =
+          (interaction as ChatInputCommandInteraction).options.getNumber(
+            "value",
+          ) ?? 1;
         switch (source) {
           case "mm": {
             switch (target) {

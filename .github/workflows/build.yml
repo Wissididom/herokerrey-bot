@@ -1,4 +1,5 @@
-name: Deno Build
+name: Node Build
+
 permissions:
   "contents": "write"
 
@@ -14,37 +15,28 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest"]
+        os: ["ubuntu-latest"] # TODO: Add more OSs when adding executable building
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Setup Node
+        uses: actions/setup-node@v7
         with:
-          deno-version: v2.x
+          node-version: 26.x
       - name: Install dependencies
         run: |
-          deno install
-      - name: Compile (Windows)
-        if: startsWith(matrix.os, 'windows')
+          npm ci
+      - name: Compile
         run: |
-          deno compile -o herokerrey-bot-${{ matrix.os }}.exe -ERWN main.ts
-      - name: Compile (Ubuntu)
-        if: startsWith(matrix.os, 'ubuntu')
+          npm run build:js
+      - name: Compress
         run: |
-          deno compile -o herokerrey-bot-${{ matrix.os }} -ERWN main.ts
-      - name: Upload artifact (Windows)
-        if: startsWith(matrix.os, 'windows')
+          zip -r herokerrey-bot-js.zip build/*
+      - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
-          name: herokerrey-bot-${{ matrix.os }}
-          path: herokerrey-bot-${{ matrix.os }}.exe
-      - name: Upload artifact (Ubuntu)
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: actions/upload-artifact@v7
-        with:
-          name: herokerrey-bot-${{ matrix.os }}
-          path: herokerrey-bot-${{ matrix.os }}
+          name: herokerrey-bot-js
+          path: herokerrey-bot-js.zip
   create-release:
     needs: [build]
     runs-on: ubuntu-latest
@@ -54,17 +46,12 @@ jobs:
       - uses: actions/checkout@v7
         name: Checkout Code
 
+      # Windows
       - uses: actions/download-artifact@v8
-        name: Download artifacts
+        name: Download Windows
         with:
           path: release-artifacts/
           merge-multiple: true
-
-      - name: Rename Windows Binary
-        run: mv release-artifacts/herokerrey-bot-windows-latest.exe release-artifacts/herokerrey-bot-Windows.exe
-
-      - name: Rename Linux Binary
-        run: mv release-artifacts/herokerrey-bot-ubuntu-latest release-artifacts/herokerrey-bot-Linux
 
       - name: Create release
         uses: ncipollo/release-action@v1.21.0

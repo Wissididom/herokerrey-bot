@@ -9,15 +9,15 @@ import {
   TextChannel,
 } from "discord.js";
 
-import { handleYuh } from "./yuh.ts";
-import { handleAutoResponder } from "./autoresponder.ts";
-import { handleTimezoneGenerator } from "./timezonegenerator.ts";
-import { handleTemperatureConverter } from "./temperatureconverter.ts";
-import { handleLengthConverter } from "./lengthconverter.ts";
-import { handleWeightConverter } from "./weightconverter.ts";
-import { handleVolumeConverter } from "./volumeconverter.ts";
-import { handleHoneypot } from "./honeypot.ts";
-import { scheduleQotd } from "./qotd.ts";
+import { handleYuh } from "./yuh.js";
+import { handleAutoResponder } from "./autoresponder.js";
+import { handleTimezoneGenerator } from "./timezonegenerator.js";
+import { handleTemperatureConverter } from "./temperatureconverter.js";
+import { handleLengthConverter } from "./lengthconverter.js";
+import { handleWeightConverter } from "./weightconverter.js";
+import { handleVolumeConverter } from "./volumeconverter.js";
+import { handleHoneypot } from "./honeypot.js";
+import { scheduleQotd } from "./qotd.js";
 
 const client = new Client({
   intents: [
@@ -56,9 +56,9 @@ client.on(Events.ClientReady, async () => {
     name: "twitch.tv/herokerrey",
     type: ActivityType.Watching,
   });
-  if (Deno.env.has("QOTD_CHANNEL")) {
+  if (process.env.QOTD_CHANNEL) {
     const channel: Channel | null = await client.channels.fetch(
-      Deno.env.get("QOTD_CHANNEL")!,
+      process.env.QOTD_CHANNEL!,
     );
     if (channel) {
       scheduleQotd(channel as TextChannel);
@@ -72,16 +72,18 @@ client.on(Events.MessageCreate, async (msg: Message) => {
     if (!embedDescription) return;
     const userRegex = /<@!?(\d+)>/g;
     const userIds = [...embedDescription.matchAll(userRegex)].map((m) => m[1]);
-    const users = await Promise.all(userIds.map(async (id) => {
-      try {
-        return await client.users.fetch(id);
-      } catch {
-        return null;
-      }
-    }));
-    const usernames = users.filter((u): u is NonNullable<typeof u> =>
-      u !== null
-    ).map((u) => u.username);
+    const users = await Promise.all(
+      userIds.map(async (id) => {
+        try {
+          return await client.users.fetch(id);
+        } catch {
+          return null;
+        }
+      }),
+    );
+    const usernames = users
+      .filter((u): u is NonNullable<typeof u> => u !== null)
+      .map((u) => u.username);
     if (usernames.length < 1) return;
     try {
       if (msg.channel.isSendable()) {
@@ -101,11 +103,11 @@ client.on(Events.MessageCreate, async (msg: Message) => {
   }
   if (msg.author.system) return; // skip system messages
   if (msg.author.bot) return; // skip messages by bots
-  if (Deno.env.has("HONEYPOT_CHANNEL")) {
+  if (process.env.HONEYPOT_CHANNEL) {
     await handleHoneypot(
       msg,
-      Deno.env.get("HONEYPOT_CHANNEL")!,
-      Deno.env.get("HONEYPOT_LOG_CHANNEL") ?? null,
+      process.env.HONEYPOT_CHANNEL!,
+      process.env.HONEYPOT_LOG_CHANNEL ?? null,
     );
   }
   await handleYuh(msg, false);
@@ -140,10 +142,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-if (!Deno.env.has("DISCORD_TOKEN")) {
+if (!process.env.DISCORD_TOKEN) {
   console.log(
     "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file and use the `--env` command line switch",
   );
 } else {
-  client.login(Deno.env.get("DISCORD_TOKEN"));
+  client.login(process.env.DISCORD_TOKEN);
 }

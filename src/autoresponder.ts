@@ -3,10 +3,10 @@ import { Message, TextChannel } from "discord.js";
 export async function handleAutoResponder(message: Message) {
   if (message.author.bot) return;
   if (
-    Deno.env.has("AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS") &&
-    Deno.env.get("AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS")!.split(",").includes(
-      message.channelId,
-    )
+    process.env.AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS &&
+    process.env
+      .AUTO_RESPONDER_EXCLUSION_CHANNEL_IDS!.split(",")
+      .includes(message.channelId)
   ) {
     return; // Don't do things in a channel listed in the exclusion channels
   }

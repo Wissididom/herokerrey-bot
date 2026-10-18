@@ -1,0 +1,32 @@
+{
+  "name": "herokerrey-bot",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Wissididom/herokerrey-bot#readme",
+  "bugs": {
+    "url": "https://github.com/Wissididom/herokerrey-bot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wissididom/herokerrey-bot.git"
+  },
+  "type": "module",
+  "main": "main.ts",
+  "scripts": {
+    "start": "tsc && node build/main.js",
+    "start:dotenv": "tsc && node --env-file-if-exists=.env build/main.js",
+    "build:js": "tsc",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "luxon": "^3.7.2",
+    "node-cron": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.7.6",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2"
+  }
+}

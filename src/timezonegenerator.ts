@@ -95,9 +95,10 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
           (interaction as ChatInputCommandInteraction).options.getInteger(
             "second",
           ) ?? 0;
-        const timezone: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("timezone");
+        const timezone: string | undefined =
+          (interaction as ChatInputCommandInteraction).options.getString(
+            "timezone",
+          ) ?? undefined;
         //Intl.DateTimeFormat().resolvedOptions().timeZone // own timezone
         const unix: number = DateTime.fromObject(
           {
@@ -161,12 +162,14 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
           (interaction as ChatInputCommandInteraction).options.getInteger(
             "second",
           ) ?? 1;
-        const src: string | null = (interaction as ChatInputCommandInteraction)
-          .options
-          .getString("src");
-        const dst: string | null = (interaction as ChatInputCommandInteraction)
-          .options
-          .getString("dst");
+        const src: string | undefined =
+          (interaction as ChatInputCommandInteraction).options.getString(
+            "src",
+          ) ?? undefined;
+        const dst: string | undefined =
+          (interaction as ChatInputCommandInteraction).options.getString(
+            "dst",
+          ) ?? undefined;
         const srcTimeObj: DateTime = DateTime.fromObject(
           {
             day,
@@ -188,8 +191,7 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
             locale: "en-US",
           });
         await interaction.editReply({
-          content:
-            `\`${srcTime}\` (Timezone: \`${src}\`) in \`${dst}\` is \`${dstTime}\``,
+          content: `\`${srcTime}\` (Timezone: \`${src}\`) in \`${dst}\` is \`${dstTime}\``,
         });
         console.log(
           `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Public: ${pub}`,
@@ -197,20 +199,17 @@ export async function handleTimezoneGenerator(interaction: Interaction) {
         break;
       }
       case "convertcurrenttime": {
-        const timezone: string | null =
-          (interaction as ChatInputCommandInteraction)
-            .options.getString("timezone");
-        const currenttime: DateTime = DateTime.now()
+        const timezone: string | undefined =
+          (interaction as ChatInputCommandInteraction).options.getString(
+            "timezone",
+          ) ?? undefined;
+        const currenttime: string = DateTime.now()
           .setZone(timezone)
           .toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS, {
             locale: "en-US",
           });
         await interaction.editReply({
-          content: `The current time in \`${
-            (interaction as ChatInputCommandInteraction).options.getString(
-              "timezone",
-            )
-          }\` is \`${currenttime}\``,
+          content: `The current time in \`${timezone}\` is \`${currenttime}\``,
         });
         console.log(
           `[convertcurrenttime] Executed /convertcurrenttime (Public: ${pub})`,
