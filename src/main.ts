@@ -88,7 +88,7 @@ client.on(Events.MessageCreate, async (msg: Message) => {
     );
     const usernames = users
       .filter((u): u is NonNullable<typeof u> => u !== null)
-      .map((u) => u.username);
+      .map((u) => `\`\`${u.username}\`\``);
     if (usernames.length < 1) return;
     try {
       if (msg.channel.isSendable()) {
