@@ -20,7 +20,7 @@
     "check-format": "prettier --check ."
   },
   "dependencies": {
-    "discord.js": "^14.28.0",
+    "discord.js": "^14.28.1",
     "luxon": "^3.7.2",
     "node-cron": "^4.6.0"
   },
